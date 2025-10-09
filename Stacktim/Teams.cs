@@ -5,22 +5,26 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class Teams
 {
     [Key]
-    public int Id { get; set; }
+    public int Id { get; set; };
 
     [Required]
     [MaxLength(50)]
-    public string Name { get; set; }
+    public string Name { get; set; };
 
     [Required]
-    [MaxLength(100)]
-    public string Tag { get; set; }
+    [StringLength(3, MinimumLength = 3)];
+    [RegularExpression, "Message : le tag contient que 3 caractères"];
+    public string Tag { get; set; };
 
     [Required]
-    [MaxLength(20)]
-    public string CaptainId { get; set; }
+    public string CaptainId { get; set; };
 
-    [Range(0, int.MaxValue)]
+    [ForeignKey("CaptainId")]
+    public string CaptainId { get; set };
+
+    [Required)]
     public int TotalScore { get; set; } = 0;
 
-    public DateTime RegistrationDate { get; set; } = DateTime.Now;
-}
+    public DateTime CreationDate { get; set; } = DateTime.Now;
+
+    public ICollection<TeamsPlayer> TeamPlayers { get; set };

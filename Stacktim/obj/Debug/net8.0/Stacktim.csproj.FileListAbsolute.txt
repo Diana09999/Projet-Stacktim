@@ -167,3 +167,4 @@ C:\Users\Administrateur.ACASRVRDS001\Desktop\stacktim\Stacktim\obj\Debug\net8.0\
 C:\Users\Administrateur.ACASRVRDS001\Desktop\stacktim\Stacktim\obj\Debug\net8.0\Stacktim.pdb
 C:\Users\Administrateur.ACASRVRDS001\Desktop\stacktim\Stacktim\obj\Debug\net8.0\Stacktim.genruntimeconfig.cache
 C:\Users\Administrateur.ACASRVRDS001\Desktop\stacktim\Stacktim\obj\Debug\net8.0\ref\Stacktim.dll
+C:\Users\Administrateur.ACASRVRDS001\Desktop\stacktim\Stacktim\obj\Debug\net8.0\Stacktim.sourcelink.json
