@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Stacktim.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(StacktimContext))]
     [Migration("20251009125042_InitialCreate")]
     partial class InitialCreate
     {

@@ -1,28 +1,21 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 
-public class Player
+namespace Stacktim;
+
+public partial class Player
 {
-    [Key]
     public int Id { get; set; }
 
-    [Required]
-    [MaxLength(50)]
-    public string Pseudo { get; set; }
+    public string Pseudo { get; set; } = null!;
 
-    [Required]
-    [MaxLength(100),EmailAddress]
-    public string Email { get; set; }
+    public string Email { get; set; } = null!;
 
-    [Required]
-    [MaxLength(20)]
-    public string Rank { get; set; }
+    public string Rank { get; set; } = null!;
 
-    [Range(0, int.MaxValue)]
-    public int TotalScore { get; set; } = 0;
+    public int TotalScore { get; set; }
 
-    public DateTime RegistrationDate { get; set; } = DateTime.Now;
+    public DateTime RegistrationDate { get; set; }
 
-    public ICollection<TeamPlayer> TeamPlayers { get; set; } = new List<TeamPlayer>();
+    public virtual ICollection<Team> Teams { get; set; } = new List<Team>();
 }

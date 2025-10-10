@@ -17,7 +17,7 @@ public class Player
 
     [Required]
     [MaxLength(20)]
-    public string Rank { get; set; }
+    public string Rank { get; set; };
 
     [Range(0, int.MaxValue)]
     public int TotalScore { get; set; } = 0;
