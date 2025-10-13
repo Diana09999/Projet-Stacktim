@@ -1,12 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Stacktim.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-/*var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<StacktimContext>(options =>
-    options.UseSqlServer(connectionString));*/
+    options.UseSqlServer(connectionString));
 
 builder.Services.AddControllers();
 
@@ -14,8 +15,8 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    /*var context = scope.ServiceProvider.GetRequiredService<StacktimContext>();
-    context.Database.Migrate();*/
+    var context = scope.ServiceProvider.GetRequiredService<StacktimContext>();
+    context.Database.Migrate();
 }
 
 app.UseHttpsRedirection();

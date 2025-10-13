@@ -1,9 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Stacktim",
-    "\\Stacktim\\Migrations"
+    "\\Stacktim-Api",
+    "\\Stacktim-Api\\bin",
+    "\\Stacktim-Api\\Data",
+    "\\Stacktim-Api\\Migrations",
+    "\\Stacktim-Api\\Models"
   ],
-  "SelectedNode": "\\Stacktim\\ApplicationDbContext.cs",
+  "SelectedNode": "\\Stacktim-Api\\Migrations\\20251012133842_InitialCreate.cs",
   "PreviewInSolutionExplorer": false
 }

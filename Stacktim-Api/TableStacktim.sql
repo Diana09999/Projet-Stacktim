@@ -33,9 +33,9 @@ CREATE TABLE Teams(
 );
 
 INSERT INTO Teams(Name, Tag, CaptainId) VALUES
-('Fortnite', 'FTR', '1'),
-('Minecraft', 'MIN', '2'),
-('Call of Duty', 'COD', '3');
+('Fortnite', 'FTR', 1),
+('Minecraft', 'MIN', 2),
+('Call of Duty', 'COD', 3);
 
 CREATE TABLE TeamPlayers(
    PlayerId INT NOT NULL,
