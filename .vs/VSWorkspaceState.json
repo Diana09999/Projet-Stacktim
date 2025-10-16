@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Stacktim-Api",
+    "\\Stacktim-Api\\bin",
+    "\\Stacktim-Api\\Controllers",
+    "\\Stacktim-Api\\Data",
+    "\\Stacktim-Api\\DTOs",
+    "\\Stacktim-Api\\Migrations",
+    "\\Stacktim-Api\\Models"
+  ],
+  "SelectedNode": "\\Stacktim-Api\\DTOs\\PlayerDto.cs",
+  "PreviewInSolutionExplorer": false
+}

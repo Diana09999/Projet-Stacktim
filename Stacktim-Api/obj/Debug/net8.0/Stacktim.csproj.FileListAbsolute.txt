@@ -446,3 +446,8 @@ C:\Users\diana\OneDrive\Documents\3ème année XEFI - EPSI\.NET\Projet-Stacktim\
 C:\Users\diana\OneDrive\Documents\3ème année XEFI - EPSI\.NET\Projet-Stacktim\Stacktim-Api\obj\Debug\net8.0\Stacktim.pdb
 C:\Users\diana\OneDrive\Documents\3ème année XEFI - EPSI\.NET\Projet-Stacktim\Stacktim-Api\obj\Debug\net8.0\Stacktim.genruntimeconfig.cache
 C:\Users\diana\OneDrive\Documents\3ème année XEFI - EPSI\.NET\Projet-Stacktim\Stacktim-Api\obj\Debug\net8.0\ref\Stacktim.dll
+C:\Users\diana\OneDrive\Documents\3ème année XEFI - EPSI\.NET\Projet-Stacktim\Stacktim-Api\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\diana\OneDrive\Documents\3ème année XEFI - EPSI\.NET\Projet-Stacktim\Stacktim-Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\diana\OneDrive\Documents\3ème année XEFI - EPSI\.NET\Projet-Stacktim\Stacktim-Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\diana\OneDrive\Documents\3ème année XEFI - EPSI\.NET\Projet-Stacktim\Stacktim-Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\diana\OneDrive\Documents\3ème année XEFI - EPSI\.NET\Projet-Stacktim\Stacktim-Api\obj\Debug\net8.0\Stacktim.MvcApplicationPartsAssemblyInfo.cs
