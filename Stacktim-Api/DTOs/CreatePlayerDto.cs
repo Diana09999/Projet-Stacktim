@@ -1,15 +1,21 @@
-public class CreatePlayerDto
+using System.ComponentModel.DataAnnotations;
+
+namespace Stacktim.DTOs
 {
-    [Required]
-    [StringLength(50)]
-    public string Pseudo {  get; set; }
 
-    [Required]
-    [StringLength(100)]
-    [EmailAddress]
-    public string Email { get; set; }
+    public class CreatePlayerDto
+    {
+        [Required]
+        [StringLength(50)]
+        public string Pseudo { get; set; }
 
-    [Required]
-    [StringLength(20)]
-    public string Rank { get; set; }
+        [Required]
+        [StringLength(100)]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(20)]
+        public string Rank { get; set; }
+    }
 }
