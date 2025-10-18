@@ -4,7 +4,6 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Stacktim.Controllers;
 using Stacktim.DTOs;
-using Stacktim.Helpers;
 using Stacktim.Models;
 using Xunit;
 
