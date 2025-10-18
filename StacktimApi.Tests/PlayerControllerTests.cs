@@ -111,5 +111,22 @@ namespace StacktimApi.Tests
             players.Should().BeInDescendingOrder(p => p.TotalScore);
             context.Dispose();
         }
+
+        [Fact]
+        public void CreatePlayer_WithValidData_ReturnsCreated()
+        {
+            var context = TestDbContextFactory.Create();
+            var controller = new PlayerController(context);
+
+            var dto = new CreatePlayerDto { Pseudo = "NewGuy", Email = "new@email.com", Rank = "Silver" };
+
+            var result = controller.CreatePlayer(dto);
+
+            var createdResult = result.Result as CreatedAtActionResult;
+            createdResult.Should().NotBeNull();
+            var player = createdResult.Value as PlayerDto;
+            player.Pseudo.Should().Be("NewGuy");
+            context.Dispose();
+        }
     }
 }
