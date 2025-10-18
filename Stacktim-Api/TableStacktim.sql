@@ -10,7 +10,7 @@ CREATE TABLE Players(
 );
  
 INSERT INTO Players (Name, Email, RankPlayer, TotalScore) VALUES
-('Diana', 'diana@email.com', 'Gold', 1500),
+('Diana', 'diana@email.com', 'Bronze', 1500),
 ('Logy', 'logy@email.com', 'Platinum', 2200),
 ('Polm', 'polm@email.com', 'Gold', 1800),
 ('Sefi', 'sefi@email.com', 'Diamond', 3100),

@@ -6,7 +6,6 @@ using Stacktim.Controllers;
 using Stacktim.DTOs;
 using Stacktim.Helpers;
 using Stacktim.Models;
-using Stacktim.Controllers;
 using Xunit;
 
 namespace StacktimApi.Tests
@@ -24,7 +23,7 @@ namespace StacktimApi.Tests
             var okResult = result.Result as OkObjectResult;
             okResult.Should().NotBeNull();
             var players = okResult.Value as IEnumerable<PlayerDto>;
-            players.Should().HaveCount(3);
+            players.Should().HaveCount(6);
             context.Dispose();
         }
 

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Stacktim.DTOs
- {
+{
 
 public class PlayerDto
   {
@@ -11,4 +11,4 @@ public class PlayerDto
     public string Rank { get; set; }
     public int TotalScore { get; set; }
    }
-  }
+}
