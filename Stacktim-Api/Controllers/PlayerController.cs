@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -59,9 +59,9 @@ namespace Stacktim.Controllers
         public ActionResult<PlayerDto> CreatePlayer([FromBody] CreatePlayerDto dto)
         {
             if (_context.Players.Any(p => p.Name == dto.Pseudo))
-                return BadRequest("Pseudo déjà utilisé");
+                return BadRequest("Pseudo dÃ©ja utilisÃ©");
             if (_context.Players.Any(p => p.Email == dto.Email))
-                return BadRequest("Email déjà utilisé");
+                return BadRequest("Email dÃ©ja utilisÃ©");
 
             var player = new Player
             {
@@ -94,10 +94,10 @@ namespace Stacktim.Controllers
 
             if (!string.IsNullOrEmpty(dto.Pseudo) && dto.Pseudo != player.Name
                 && _context.Players.Any(p => p.Name == dto.Pseudo))
-                return BadRequest("Pseudo déjà utilisé");
+                return BadRequest("Pseudo dÃ©ja utilisÃ©");
             if (!string.IsNullOrEmpty(dto.Email) && dto.Email != player.Email
                 && _context.Players.Any(p => p.Email == dto.Email))
-                return BadRequest("Email déjà utilisé");
+                return BadRequest("Email dÃ©ja utilisÃ©");
 
             if (!string.IsNullOrEmpty(dto.Pseudo)) player.Name = dto.Pseudo;
             if (!string.IsNullOrEmpty(dto.Email)) player.Email = dto.Email;

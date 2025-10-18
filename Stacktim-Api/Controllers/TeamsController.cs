@@ -1,65 +1,100 @@
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Stacktim.Data;
 using Stacktim.Models;
-using Stacktim.DTOs;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-[Route("api/[controller]")]
-[ApiController]
-public class TeamsController : ControllerBase
+namespace Stacktim.Controllers
 {
-    private readonly StacktimContext _context;
-
-    public TeamsController(StacktimContext context)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class TeamsController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly StacktimContext _context;
 
-    [HttpGet]
-    public ActionResult<IEnumerable<Team>> GetTeams()
-    {
-        return Ok(_context.Teams.ToList());
-    }
+        public TeamsController(StacktimContext context)
+        {
+            _context = context;
+        }
 
-    [HttpGet("{id}")]
-    public ActionResult<Team> GetTeam(int id)
-    {
-        var team = _context.Teams.Find(id);
-        if (team == null)
-            return NotFound();
-        return Ok(team);
-    }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Team>>> GetTeams()
+        {
+            return await _context.Teams.ToListAsync();
+        }
 
-    [HttpPost]
-    public ActionResult<Team> CreateTeam([FromBody] Team team)
-    {
-        if (_context.Teams.Any(t => t.Name == team.Name))
-            return BadRequest("Nom déjà utilisé");
-        if (_context.Teams.Any(t => t.Tag == team.Tag))
-            return BadRequest("Tag déjà utilisé");
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Team>> GetTeam(int id)
+        {
+            var team = await _context.Teams.FindAsync(id);
 
-        _context.Teams.Add(team);
-        _context.SaveChanges();
-        return CreatedAtAction(nameof(GetTeam), new { id = team.IdTeams }, team);
-    }
+            if (team == null)
+            {
+                return NotFound();
+            }
 
-    [HttpGet("{id}/roster")]
-    public ActionResult GetRoster(int id)
-    {
-        var team = _context.Teams.Find(id);
-        if (team == null)
-            return NotFound();
+            return team;
+        }
 
-        var roster = _context.TeamPlayers
-            .Where(tp => tp.TeamId == id)
-            .Join(_context.Players, tp => tp.PlayerId, p => p.IdPlayers,
-                (tp, p) => new
+        [HttpPost]
+        public async Task<ActionResult<Team>> PostTeam(Team team)
+        {
+            _context.Teams.Add(team);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetTeam", new { id = team.IdTeams }, team);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutTeam(int id, Team team)
+        {
+            if (id != team.IdTeams)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(team).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TeamExists(id))
                 {
-                    Pseudo = p.Name,
-                    Role = tp.Role
-                }).ToList();
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-        return Ok(roster);
+            return NoContent();
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTeam(int id)
+        {
+            var team = await _context.Teams.FindAsync(id);
+            if (team == null)
+            {
+                return NotFound();
+            }
+
+            _context.Teams.Remove(team);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool TeamExists(int id)
+        {
+            return _context.Teams.Any(e => e.IdTeams == id);
+        }
     }
 }

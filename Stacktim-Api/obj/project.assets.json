@@ -4289,11 +4289,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\diana\\OneDrive\\Documents\\3ème année XEFI - EPSI\\.NET\\Projet-Stacktim\\Stacktim-api\\Stacktim.csproj",
+      "projectUniqueName": "C:\\Users\\diana\\OneDrive\\Documents\\3ème année XEFI - EPSI\\.NET\\Projet-Stacktim\\Stacktim-Api\\Stacktim.csproj",
       "projectName": "Stacktim",
-      "projectPath": "C:\\Users\\diana\\OneDrive\\Documents\\3ème année XEFI - EPSI\\.NET\\Projet-Stacktim\\Stacktim-api\\Stacktim.csproj",
+      "projectPath": "C:\\Users\\diana\\OneDrive\\Documents\\3ème année XEFI - EPSI\\.NET\\Projet-Stacktim\\Stacktim-Api\\Stacktim.csproj",
       "packagesPath": "C:\\Users\\diana\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\diana\\OneDrive\\Documents\\3ème année XEFI - EPSI\\.NET\\Projet-Stacktim\\Stacktim-api\\obj\\",
+      "outputPath": "C:\\Users\\diana\\OneDrive\\Documents\\3ème année XEFI - EPSI\\.NET\\Projet-Stacktim\\Stacktim-Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
