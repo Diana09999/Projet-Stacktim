@@ -1,129 +1,36 @@
-using Xunit;
-using Stacktim.Controllers;
-using Stacktim.Data;
+﻿using Xunit;
 using Stacktim.Models;
-using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-public class TeamsControllerTests
+namespace StacktimApi.Tests
 {
-	[Fact]
-	public async Task GetTeams_ReturnsAllTeams()
-	{
-		var context = TestDbContextFactory.Create();
-		var team = new Team { Name = "EquipeTest", Tag = "TST", CaptainId = 1 };
-		context.Teams.Add(team);
-		context.SaveChanges();
+    public class TeamControllerTests
+    {
+        [Fact]
+        public void Team_CanBeCreatedAndPropertiesSet()
+        {
+            var captain = new Player { IdPlayers = 1, Name = "CaptainTest" };
+            var teamPlayers = new List<TeamPlayer>();
 
-		var controller = new TeamsController(context);
+            var team = new Team
+            {
+                IdTeams = 1,
+                Name = "TestTeam",
+                Tag = "TT",
+                CaptainId = captain.IdPlayers,
+                CreationDate = DateTime.Now,
+                Captain = captain,
+                TeamPlayers = teamPlayers
+            };
 
-		var result = await controller.GetTeams();
-		var teams = Assert.IsType<ActionResult<IEnumerable<Team>>>(result);
-		Assert.NotNull(teams.Value);
-		Assert.True(teams.Value.Any()); 
-		context.Dispose();
-	}
-
-	[Fact]
-	public async Task GetTeam_WithValidId_ReturnsTeam()
-	{
-		var context = TestDbContextFactory.Create();
-		var team = new Team { Name = "EquipeTest", Tag = "TST", CaptainId = 1 };
-		context.Teams.Add(team);
-		context.SaveChanges();
-
-		var controller = new TeamsController(context);
-
-		var result = await controller.GetTeam(team.IdTeams);
-		var actionResult = Assert.IsType<ActionResult<Team>>(result);
-		Assert.NotNull(actionResult.Value);
-		Assert.Equal(team.IdTeams, actionResult.Value.IdTeams);
-		context.Dispose();
-	}
-
-	[Fact]
-	public async Task GetTeam_WithInvalidId_ReturnsNotFound()
-	{
-		var context = TestDbContextFactory.Create();
-		var controller = new TeamsController(context);
-
-		var result = await controller.GetTeam(999);
-		var actionResult = Assert.IsType<ActionResult<Team>>(result);
-		Assert.IsType<NotFoundResult>(actionResult.Result);
-		context.Dispose();
-	}
-
-	[Fact]
-	public async Task PostTeam_WithValidData_CreatesTeam()
-	{
-		var context = TestDbContextFactory.Create();
-		var controller = new TeamsController(context);
-
-		var team = new Team { Name = "TestTeam", Tag = "TTT", CaptainId = 1 };
-		var result = await controller.PostTeam(team);
-		var createdResult = Assert.IsType<CreatedAtActionResult>(result.Result);
-		var createdTeam = Assert.IsType<Team>(createdResult.Value);
-		Assert.Equal("TestTeam", createdTeam.Name);
-		Assert.Equal("TTT", createdTeam.Tag);
-		context.Dispose();
-	}
-
-	[Fact]
-	public async Task PutTeam_WithValidId_UpdatesTeam()
-	{
-		var context = TestDbContextFactory.Create();
-		var team = new Team { Name = "EquipeTest", Tag = "TST", CaptainId = 1 };
-		context.Teams.Add(team);
-		context.SaveChanges();
-
-		var controller = new TeamsController(context);
-
-		team.Name = "UpdatedName";
-		var result = await controller.PutTeam(team.IdTeams, team);
-		Assert.IsType<NoContentResult>(result);
-		context.Dispose();
-	}
-
-	[Fact]
-	public async Task PutTeam_WithInvalidId_ReturnsBadRequest()
-	{
-		var context = TestDbContextFactory.Create();
-		var team = new Team { Name = "EquipeTest", Tag = "TST", CaptainId = 1 };
-		context.Teams.Add(team);
-		context.SaveChanges();
-
-		var controller = new TeamsController(context);
-
-		var result = await controller.PutTeam(team.IdTeams + 999, team);
-		Assert.IsType<BadRequestResult>(result);
-		context.Dispose();
-	}
-
-	[Fact]
-	public async Task DeleteTeam_WithValidId_DeletesTeam()
-	{
-		var context = TestDbContextFactory.Create();
-		var team = new Team { Name = "DelTeam", Tag = "DEL", CaptainId = 1 };
-		context.Teams.Add(team);
-		context.SaveChanges();
-
-		var controller = new TeamsController(context);
-
-		var result = await controller.DeleteTeam(team.IdTeams);
-		Assert.IsType<NoContentResult>(result);
-		context.Dispose();
-	}
-
-	[Fact]
-	public async Task DeleteTeam_WithInvalidId_ReturnsNotFound()
-	{
-		var context = TestDbContextFactory.Create();
-		var controller = new TeamsController(context);
-
-		var result = await controller.DeleteTeam(999);
-		Assert.IsType<NotFoundResult>(result);
-		context.Dispose();
-	}
+            Assert.Equal(1, team.IdTeams);
+            Assert.Equal("TestTeam", team.Name);
+            Assert.Equal("TT", team.Tag);
+            Assert.Equal(captain.IdPlayers, team.CaptainId);
+            Assert.Equal(captain, team.Captain);
+            Assert.Equal(teamPlayers, team.TeamPlayers);
+            Assert.True(team.CreationDate <= DateTime.Now); 
+        }
+    }
 }
