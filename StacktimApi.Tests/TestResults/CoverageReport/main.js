@@ -214,16 +214,16 @@ var assemblies = [
     "name": "Stacktim",
     "classes": [
       { "name": "Program", "rp": "Stacktim_Program.html", "cl": 0, "ucl": 22, "cal": 22, "tl": 35, "cb": 0, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Stacktim.Controllers.PlayersController", "rp": "Stacktim_PlayersController.html", "cl": 76, "ucl": 19, "cal": 95, "tl": 141, "cb": 6, "tb": 30, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Stacktim.Controllers.TeamsController", "rp": "Stacktim_TeamsController.html", "cl": 0, "ucl": 48, "cal": 48, "tl": 100, "cb": 0, "tb": 8, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Stacktim.Controllers.PlayersController", "rp": "Stacktim_PlayersController.html", "cl": 92, "ucl": 1, "cal": 93, "tl": 147, "cb": 20, "tb": 26, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Stacktim.Controllers.TeamsController", "rp": "Stacktim_TeamsController.html", "cl": 38, "ucl": 10, "cal": 48, "tl": 100, "cb": 6, "tb": 8, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Stacktim.Data.StacktimContext", "rp": "Stacktim_StacktimContext.html", "cl": 70, "ucl": 6, "cal": 76, "tl": 101, "cb": 1, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Stacktim.DTOs.CreatePlayerDto", "rp": "Stacktim_CreatePlayerDto.html", "cl": 3, "ucl": 0, "cal": 3, "tl": 20, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Stacktim.DTOs.PlayerDto", "rp": "Stacktim_PlayerDto.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 13, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Stacktim.DTOs.UpdatePlayerDto", "rp": "Stacktim_UpdatePlayerDto.html", "cl": 0, "ucl": 4, "cal": 4, "tl": 20, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Stacktim.DTOs.UpdatePlayerDto", "rp": "Stacktim_UpdatePlayerDto.html", "cl": 4, "ucl": 0, "cal": 4, "tl": 20, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Stacktim.Migrations.InitialCreate", "rp": "Stacktim_InitialCreate.html", "cl": 0, "ucl": 256, "cal": 256, "tl": 314, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Stacktim.Migrations.StacktimContextModelSnapshot", "rp": "Stacktim_StacktimContextModelSnapshot.html", "cl": 0, "ucl": 157, "cal": 157, "tl": 185, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Stacktim.Models.Player", "rp": "Stacktim_Player.html", "cl": 8, "ucl": 0, "cal": 8, "tl": 23, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Stacktim.Models.Team", "rp": "Stacktim_Team.html", "cl": 0, "ucl": 7, "cal": 7, "tl": 21, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Stacktim.Models.Team", "rp": "Stacktim_Team.html", "cl": 6, "ucl": 1, "cal": 7, "tl": 21, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Stacktim.Models.TeamPlayer", "rp": "Stacktim_TeamPlayer.html", "cl": 0, "ucl": 6, "cal": 6, "tl": 19, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
 ];
@@ -239,10 +239,10 @@ var riskHotspotMetrics = [
 
 var riskHotspots = [
   {
-    "assembly": "Stacktim", "class": "Stacktim.Controllers.PlayersController", "reportPath": "Stacktim_PlayersController.html", "methodName": "UpdatePlayer(System.Int32,Stacktim.DTOs.UpdatePlayerDto)", "methodShortName": "UpdatePlayer(...)", "fileIndex": 0, "line": 90,
+    "assembly": "Stacktim", "class": "Stacktim.Controllers.PlayersController", "reportPath": "Stacktim_PlayersController.html", "methodName": "UpdatePlayer(System.Int32,Stacktim.DTOs.UpdatePlayerDto)", "methodShortName": "UpdatePlayer(...)", "fileIndex": 0, "line": 91,
     "metrics": [
-      { "value": 506, "exceeded": true },
-      { "value": 22, "exceeded": true },
+      { "value": 18, "exceeded": false },
+      { "value": 18, "exceeded": true },
     ]},
 ];
 

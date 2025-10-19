@@ -13,12 +13,16 @@ public class TeamsControllerTests
 	public async Task GetTeams_ReturnsAllTeams()
 	{
 		var context = TestDbContextFactory.Create();
+		var team = new Team { Name = "EquipeTest", Tag = "TST", CaptainId = 1 };
+		context.Teams.Add(team);
+		context.SaveChanges();
+
 		var controller = new TeamsController(context);
 
 		var result = await controller.GetTeams();
 		var teams = Assert.IsType<ActionResult<IEnumerable<Team>>>(result);
 		Assert.NotNull(teams.Value);
-		Assert.True(teams.Value.Count() >= 1);
+		Assert.True(teams.Value.Any()); 
 		context.Dispose();
 	}
 
@@ -26,13 +30,16 @@ public class TeamsControllerTests
 	public async Task GetTeam_WithValidId_ReturnsTeam()
 	{
 		var context = TestDbContextFactory.Create();
+		var team = new Team { Name = "EquipeTest", Tag = "TST", CaptainId = 1 };
+		context.Teams.Add(team);
+		context.SaveChanges();
+
 		var controller = new TeamsController(context);
 
-		var id = 1;
-		var result = await controller.GetTeam(id);
-		var team = Assert.IsType<ActionResult<Team>>(result);
-		Assert.NotNull(team.Value);
-		Assert.Equal(id, team.Value.IdTeams);
+		var result = await controller.GetTeam(team.IdTeams);
+		var actionResult = Assert.IsType<ActionResult<Team>>(result);
+		Assert.NotNull(actionResult.Value);
+		Assert.Equal(team.IdTeams, actionResult.Value.IdTeams);
 		context.Dispose();
 	}
 
@@ -67,9 +74,12 @@ public class TeamsControllerTests
 	public async Task PutTeam_WithValidId_UpdatesTeam()
 	{
 		var context = TestDbContextFactory.Create();
+		var team = new Team { Name = "EquipeTest", Tag = "TST", CaptainId = 1 };
+		context.Teams.Add(team);
+		context.SaveChanges();
+
 		var controller = new TeamsController(context);
 
-		var team = context.Teams.First();
 		team.Name = "UpdatedName";
 		var result = await controller.PutTeam(team.IdTeams, team);
 		Assert.IsType<NoContentResult>(result);
@@ -80,9 +90,12 @@ public class TeamsControllerTests
 	public async Task PutTeam_WithInvalidId_ReturnsBadRequest()
 	{
 		var context = TestDbContextFactory.Create();
+		var team = new Team { Name = "EquipeTest", Tag = "TST", CaptainId = 1 };
+		context.Teams.Add(team);
+		context.SaveChanges();
+
 		var controller = new TeamsController(context);
 
-		var team = context.Teams.First();
 		var result = await controller.PutTeam(team.IdTeams + 999, team);
 		Assert.IsType<BadRequestResult>(result);
 		context.Dispose();
@@ -92,11 +105,11 @@ public class TeamsControllerTests
 	public async Task DeleteTeam_WithValidId_DeletesTeam()
 	{
 		var context = TestDbContextFactory.Create();
-		var controller = new TeamsController(context);
-
 		var team = new Team { Name = "DelTeam", Tag = "DEL", CaptainId = 1 };
 		context.Teams.Add(team);
 		context.SaveChanges();
+
+		var controller = new TeamsController(context);
 
 		var result = await controller.DeleteTeam(team.IdTeams);
 		Assert.IsType<NoContentResult>(result);

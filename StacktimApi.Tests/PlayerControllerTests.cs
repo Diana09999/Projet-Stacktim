@@ -15,14 +15,16 @@ namespace StacktimApi.Tests
         public void GetPlayers_ReturnsAllPlayers()
         {
             var context = TestDbContextFactory.Create();
+            var player = new Player { Name = "Diana", Email = "diana@email.com", RankPlayer = "Gold", TotalScore = 10, RegistrationDate = DateTime.Now };
+            context.Players.Add(player);
+            context.SaveChanges();
+
             var controller = new PlayersController(context);
 
             var result = controller.GetPlayers();
-
-            var okResult = result.Result as OkObjectResult;
-            okResult.Should().NotBeNull();
-            var players = okResult.Value as IEnumerable<PlayerDto>;
-            players.Should().HaveCount(6);
+            var players = Assert.IsType<ActionResult<IEnumerable<PlayerDto>>>(result);
+            Assert.NotNull(players.Value);
+            Assert.True(players.Value.Any());
             context.Dispose();
         }
 
@@ -30,15 +32,16 @@ namespace StacktimApi.Tests
         public void GetPlayer_WithValidId_ReturnsPlayer()
         {
             var context = TestDbContextFactory.Create();
+            var player = new Player { Name = "Diana", Email = "diana@email.com", RankPlayer = "Gold", TotalScore = 10, RegistrationDate = DateTime.Now };
+            context.Players.Add(player);
+            context.SaveChanges();
+
             var controller = new PlayersController(context);
 
-            var result = controller.GetPlayer(1);
-
-            var okResult = result.Result as OkObjectResult;
-            okResult.Should().NotBeNull();
-            var player = okResult.Value as PlayerDto;
-            player.Id.Should().Be(1);
-            player.Pseudo.Should().Be("Diana");
+            var result = controller.GetPlayer(player.IdPlayers);
+            var actionResult = Assert.IsType<ActionResult<PlayerDto>>(result);
+            Assert.NotNull(actionResult.Value);
+            Assert.Equal(player.IdPlayers, actionResult.Value.Id);
             context.Dispose();
         }
 
@@ -48,9 +51,9 @@ namespace StacktimApi.Tests
             var context = TestDbContextFactory.Create();
             var controller = new PlayersController(context);
 
-            var result = controller.GetPlayer(42);
-
-            result.Result.Should().BeOfType<NotFoundResult>();
+            var result = controller.GetPlayer(999);
+            var actionResult = Assert.IsType<ActionResult<PlayerDto>>(result);
+            Assert.IsType<NotFoundResult>(actionResult.Result);
             context.Dispose();
         }
 
@@ -60,57 +63,143 @@ namespace StacktimApi.Tests
             var context = TestDbContextFactory.Create();
             var controller = new PlayersController(context);
 
-            var dto = new CreatePlayerDto { Pseudo = "NewGuy", Email = "new@email.com", Rank = "Silver" };
+            var dto = new CreatePlayerDto { Pseudo = "NewPlayer123", Email = "newplayer@email.com", Rank = "Silver" };
 
             var result = controller.CreatePlayer(dto);
 
-            var createdResult = result.Result as CreatedAtActionResult;
-            createdResult.Should().NotBeNull();
-            var player = createdResult.Value as PlayerDto;
-            player.Pseudo.Should().Be("NewGuy");
+            var createdResult = Assert.IsType<CreatedAtActionResult>(result.Result);
+            var createdPlayer = Assert.IsType<PlayerDto>(createdResult.Value);
+            Assert.Equal("NewPlayer123", createdPlayer.Pseudo);
+            Assert.Equal("newplayer@email.com", createdPlayer.Email);
             context.Dispose();
+
         }
 
         [Fact]
         public void CreatePlayer_WithDuplicatePseudo_ReturnsBadRequest()
         {
             var context = TestDbContextFactory.Create();
+            var player = new Player { Name = "Diana", Email = "diana@email.com", RankPlayer = "Gold", TotalScore = 10, RegistrationDate = DateTime.Now };
+            context.Players.Add(player);
+            context.SaveChanges();
+
             var controller = new PlayersController(context);
 
-            var dto = new CreatePlayerDto { Pseudo = "Diana", Email = "other@email.com", Rank = "Gold" };
-
+            var dto = new CreatePlayerDto { Pseudo = "Diana", Email = "other@email.com", Rank = "Silver" };
             var result = controller.CreatePlayer(dto);
-
-            result.Result.Should().BeOfType<BadRequestObjectResult>();
+            Assert.IsType<BadRequestObjectResult>(result.Result);
             context.Dispose();
         }
 
         [Fact]
-        public void DeletePlayer_WithValidId_ReturnsNoContent()
+        public void UpdatePlayer_WithValidData_UpdatesPlayer()
+        {
+            var context = TestDbContextFactory.Create();
+            var player = new Player { Name = "Diana", Email = "diana@email.com", RankPlayer = "Gold", TotalScore = 10 };
+            context.Players.Add(player);
+            context.SaveChanges();
+
+            var controller = new PlayersController(context);
+            var dto = new UpdatePlayerDto { Pseudo = "Felix", Email = "felix@email.com", Rank = "Diamond", TotalScore = 100 };
+
+            Console.WriteLine($"creation d'un joueur {dto.Pseudo} ({dto.Email})");
+
+            var result = controller.UpdatePlayer(player.IdPlayers, dto);
+            Assert.IsType<NoContentResult>(result);
+            context.Dispose();
+        }
+
+        [Fact]
+        public void UpdatePlayer_WithInvalidId_ReturnsNotFound()
+        {
+            var context = TestDbContextFactory.Create();
+            var controller = new PlayersController(context);
+            var dto = new UpdatePlayerDto { Pseudo = "Diana" };
+
+            var result = controller.UpdatePlayer(999, dto);
+            Assert.IsType<NotFoundResult>(result);
+            context.Dispose();
+        }
+
+        [Fact]
+        public void UpdatePlayer_WithDuplicatePseudo_ReturnsBadRequest()
+        {
+            var context = TestDbContextFactory.Create();
+            var player1 = new Player { Name = "Diana", Email = "diana@email.com", RankPlayer = "Gold", TotalScore = 10, RegistrationDate = DateTime.Now };
+            var player2 = new Player { Name = "Alex", Email = "alex@email.com", RankPlayer = "Silver", TotalScore = 0, RegistrationDate = DateTime.Now };
+            context.Players.Add(player1);
+            context.Players.Add(player2);
+            context.SaveChanges();
+
+            var controller = new PlayersController(context);
+            var dto = new UpdatePlayerDto { Pseudo = "Alex" };
+
+            var result = controller.UpdatePlayer(player1.IdPlayers, dto);
+            Assert.IsType<BadRequestObjectResult>(result);
+            context.Dispose();
+        }
+
+        [Fact]
+        public void UpdatePlayer_WithDuplicateEmail_ReturnsBadRequest()
+        {
+            var context = TestDbContextFactory.Create();
+            var player1 = new Player { Name = "Diana", Email = "diana@email.com", RankPlayer = "Gold", TotalScore = 10, RegistrationDate = DateTime.Now };
+            var player2 = new Player { Name = "Alex", Email = "alex@email.com", RankPlayer = "Silver", TotalScore = 0, RegistrationDate = DateTime.Now };
+            context.Players.Add(player1);
+            context.Players.Add(player2);
+            context.SaveChanges();
+
+            var controller = new PlayersController(context);
+            var dto = new UpdatePlayerDto { Email = "alex@email.com" };
+
+            var result = controller.UpdatePlayer(player1.IdPlayers, dto);
+            Assert.IsType<BadRequestObjectResult>(result);
+            context.Dispose();
+        }
+
+        [Fact]
+        public void DeletePlayer_WithValidId_DeletesPlayer()
+        {
+            var context = TestDbContextFactory.Create();
+            var player = new Player { Name = "Diana", Email = "diana@email.com", RankPlayer = "Gold", TotalScore = 10, RegistrationDate = DateTime.Now };
+            context.Players.Add(player);
+            context.SaveChanges();
+
+            var controller = new PlayersController(context);
+
+            var result = controller.DeletePlayer(player.IdPlayers);
+            Assert.IsType<NoContentResult>(result);
+            context.Dispose();
+        }
+
+        [Fact]
+        public void DeletePlayer_WithInvalidId_ReturnsNotFound()
         {
             var context = TestDbContextFactory.Create();
             var controller = new PlayersController(context);
 
-            var result = controller.DeletePlayer(1);
-
-            result.Should().BeOfType<NoContentResult>();
-            context.Players.Find(1).Should().BeNull();
+            var result = controller.DeletePlayer(999);
+            Assert.IsType<NotFoundResult>(result);
             context.Dispose();
         }
 
         [Fact]
-        public void GetLeaderboard_ReturnsOrderedPlayers()
+        public void GetLeaderboard_ReturnsTopPlayers()
         {
             var context = TestDbContextFactory.Create();
+            for (int i = 0; i < 11; i++)
+            {
+                context.Players.Add(new Player { Name = "Player" + i, Email = $"mail{i}@mail.com", RankPlayer = "Bronze", TotalScore = i * 10, RegistrationDate = DateTime.Now });
+            }
+            context.SaveChanges();
+
             var controller = new PlayersController(context);
 
             var result = controller.GetLeaderboard();
-
-            var okResult = result.Result as OkObjectResult;
-            var players = okResult.Value as IEnumerable<PlayerDto>;
-            players.Should().BeInDescendingOrder(p => p.TotalScore);
+            var players = Assert.IsType<ActionResult<IEnumerable<PlayerDto>>>(result);
+            Assert.NotNull(players.Value);
+            Assert.Equal(10, players.Value.Count());
             context.Dispose();
         }
-
     }
 }

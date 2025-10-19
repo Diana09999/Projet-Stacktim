@@ -8,6 +8,7 @@ using Stacktim.Models;
 
 namespace Stacktim.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class PlayersController : ControllerBase
@@ -32,31 +33,30 @@ namespace Stacktim.Controllers
                     TotalScore = p.TotalScore
                 }).ToList();
 
-            return Ok(players);
+            return players;
         }
 
         [HttpGet("{id}")]
         public ActionResult<PlayerDto> GetPlayer(int id)
         {
-            var player = _context.Players
-                .Where(p => p.IdPlayers == id)
-                .Select(p => new PlayerDto
-                {
-                    Id = p.IdPlayers,
-                    Pseudo = p.Name,
-                    Email = p.Email,
-                    Rank = p.RankPlayer,
-                    TotalScore = p.TotalScore
-                }).FirstOrDefault();
-
+            var player = _context.Players.Find(id);
             if (player == null)
+            
                 return NotFound();
 
-            return Ok(player);
+              var dto = new PlayerDto
+              {
+                  Id = player.IdPlayers,
+                  Pseudo = player.Name,
+                  Email = player.Email,
+                  Rank = player.RankPlayer,
+                  TotalScore = player.TotalScore
+              };
+                return dto;
         }
 
         [HttpPost]
-        public ActionResult<PlayerDto> CreatePlayer([FromBody] CreatePlayerDto dto)
+        public ActionResult<PlayerDto> CreatePlayer(CreatePlayerDto dto)
         {
             if (_context.Players.Any(p => p.Name == dto.Pseudo))
                 return BadRequest("Pseudo déja utilisé");
@@ -68,13 +68,14 @@ namespace Stacktim.Controllers
                 Name = dto.Pseudo,
                 Email = dto.Email,
                 RankPlayer = dto.Rank,
+                RegistrationDate = DateTime.Now,
                 TotalScore = 0,
-                RegistrationDate = DateTime.Now
             };
+
             _context.Players.Add(player);
             _context.SaveChanges();
 
-            var result = new PlayerDto
+            var createdPlayer = new PlayerDto
             {
                 Id = player.IdPlayers,
                 Pseudo = player.Name,
@@ -82,31 +83,36 @@ namespace Stacktim.Controllers
                 Rank = player.RankPlayer,
                 TotalScore = player.TotalScore
             };
-            return CreatedAtAction(nameof(GetPlayer), new { id = player.IdPlayers }, result);
+            return CreatedAtAction(nameof(GetPlayer), new { id = player.IdPlayers }, createdPlayer);
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdatePlayer(int id, [FromBody] UpdatePlayerDto dto)
+        public IActionResult UpdatePlayer(int id, UpdatePlayerDto dto)
         {
-            var player = _context.Players.Find(id);
-            if (player == null)
-                return NotFound();
+            var player = _context.Players.FirstOrDefault(p => p.IdPlayers == id);
+            if (player == null) return NotFound();
 
-            if (!string.IsNullOrEmpty(dto.Pseudo) && dto.Pseudo != player.Name
-                && _context.Players.Any(p => p.Name == dto.Pseudo))
-                return BadRequest("Pseudo déja utilisé");
-            if (!string.IsNullOrEmpty(dto.Email) && dto.Email != player.Email
-                && _context.Players.Any(p => p.Email == dto.Email))
-                return BadRequest("Email déja utilisé");
+            if (!string.IsNullOrEmpty(dto.Pseudo) && PseudoExists(dto.Pseudo, id))
+                return BadRequest("Ce pseudo est déjà utilisé.");
+            if (!string.IsNullOrEmpty(dto.Email) && EmailExists(dto.Email, id))
+                return BadRequest("Cet email est déjà utilisé.");
 
-            if (!string.IsNullOrEmpty(dto.Pseudo)) player.Name = dto.Pseudo;
-            if (!string.IsNullOrEmpty(dto.Email)) player.Email = dto.Email;
-            if (!string.IsNullOrEmpty(dto.Rank)) player.RankPlayer = dto.Rank;
-            if (dto.TotalScore.HasValue) player.TotalScore = dto.TotalScore.Value;
+            player.Name = dto.Pseudo ?? player.Name;
+            player.Email = dto.Email ?? player.Email;
+            player.RankPlayer = dto.Rank ?? player.RankPlayer;
+            player.TotalScore = dto.TotalScore ?? player.TotalScore;
 
             _context.SaveChanges();
             return NoContent();
         }
+
+        private bool PseudoExists(string pseudo, int excludeId) =>
+        
+            _context.Players.Any(p => p.Name == pseudo && p.IdPlayers != excludeId);
+
+        private bool EmailExists(string email, int excludeId) =>
+            _context.Players.Any(p => p.Email == email && p.IdPlayers != excludeId);
+
 
         [HttpDelete("{id}")]
         public ActionResult DeletePlayer(int id)
@@ -135,7 +141,7 @@ namespace Stacktim.Controllers
                     TotalScore = p.TotalScore
                 }).ToList();
 
-            return Ok(topPlayers);
+            return topPlayers;
         }
     }
 }

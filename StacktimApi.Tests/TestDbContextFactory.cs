@@ -8,7 +8,7 @@ public static class TestDbContextFactory
     public static StacktimContext Create()
     {
         var options = new DbContextOptionsBuilder<StacktimContext>()
-            .UseInMemoryDatabase(databaseName: "StacktimTestDb_" + Guid.NewGuid())
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
             .Options;
 
         var context = new StacktimContext(options);
