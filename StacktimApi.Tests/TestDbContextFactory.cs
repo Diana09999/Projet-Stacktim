@@ -8,8 +8,9 @@ public static class TestDbContextFactory
     public static StacktimContext Create()
     {
         var options = new DbContextOptionsBuilder<StacktimContext>()
-            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+            .UseInMemoryDatabase(databaseName: "StacktimTestDb_" + Guid.NewGuid())
             .Options;
+
         var context = new StacktimContext(options);
 
         context.Players.AddRange(
